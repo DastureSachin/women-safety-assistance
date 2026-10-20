@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Women Safety &amp; Emergency Assistance{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" href="{{ url_for('dashboard') }}">🛡️ Women Safety &amp; Emergency Assistance</a>
+    {% if g.user %}
+    <nav aria-label="Main navigation">
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('contacts') }}">Contacts</a>
+        <a href="{{ url_for('reports') }}">Incident reports</a>
+        <a href="{{ url_for('safety_tips') }}">Safety tips</a>
+        <form class="inline-form" action="{{ url_for('logout') }}" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="nav-button" type="submit">Log out</button>
+        </form>
+    </nav>
+    {% endif %}
+</header>
+<main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="messages" aria-live="polite">
+            {% for category, message in messages %}
+            <p class="message {{ category }}">{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</main>
+<footer class="site-footer">
+    <p>Women Safety &amp; Emergency Assistance System · College demonstration</p>
+</footer>
+</body>
+</html>

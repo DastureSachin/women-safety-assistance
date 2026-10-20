@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · Women Safety{% endblock %}
+{% block content %}
+<section class="welcome">
+    <h1>Welcome, {{ g.user.name }} 💜</h1>
+    <p>Your safety matters. Keep trusted contacts close and use these tools when you need them.</p>
+</section>
+
+<section class="cards" aria-label="Safety tools">
+    <article class="card">
+        <div class="icon" aria-hidden="true">🚨</div>
+        <h2>Emergency SOS</h2>
+        <p>Review a confirmation before showing the local demo status.</p>
+        <button class="button" type="button" data-sos>Send SOS</button>
+        <p class="small-note">Demo only: this does not contact emergency services or send an alert.</p>
+        <p class="status" data-sos-result aria-live="polite"></p>
+    </article>
+    <article class="card">
+        <div class="icon" aria-hidden="true">📍</div>
+        <h2>My Location</h2>
+        <p>Request your location only when you choose to. It is not stored or sent.</p>
+        <button class="button" type="button" data-location>Get Location</button>
+        <div class="status" data-location-result aria-live="polite"></div>
+    </article>
+    <article class="card">
+        <div class="icon" aria-hidden="true">📞</div>
+        <h2>Emergency Contacts</h2>
+        <p>Manage trusted people you may want to contact.</p>
+        <a class="button link-button" href="{{ url_for('contacts') }}">Manage Contacts</a>
+    </article>
+    <article class="card">
+        <div class="icon" aria-hidden="true">💡</div>
+        <h2>Safety Tips</h2>
+        <p>Practical reminders for planning and getting help.</p>
+        <a class="button link-button" href="{{ url_for('safety_tips') }}">View Safety Tips</a>
+    </article>
+</section>
+
+<section class="emergency">
+    <h2>🚨 Need Immediate Help?</h2>
+    <p>This demo cannot contact responders. If you are in immediate danger, call your local emergency number or a trusted person.</p>
+    <button class="sos-button" type="button" data-sos>Confirm SOS</button>
+    <p class="small-note">Nothing is sent or delivered by this button.</p>
+    <p class="status" data-sos-result aria-live="polite"></p>
+</section>
+{% endblock %}

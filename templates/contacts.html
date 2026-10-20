@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Emergency Contacts · Women Safety{% endblock %}
+{% block content %}
+<section class="page-heading">
+    <h1>Emergency Contacts</h1>
+    <p>Add trusted people you may want to contact. Only you can view and manage your personal contacts.</p>
+</section>
+<section class="panel">
+    <h2>Add a trusted contact</h2>
+    <form class="stacked-form" method="post" action="{{ url_for('contacts') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label for="name">Name</label>
+        <input id="name" name="name" maxlength="100" required>
+        <label for="phone">Phone number</label>
+        <input id="phone" name="phone" type="tel" maxlength="30" required>
+        <label for="relationship">Relationship <span class="field-hint">(optional)</span></label>
+        <input id="relationship" name="relationship" maxlength="60">
+        <button class="button" type="submit">Add contact</button>
+    </form>
+</section>
+<section class="panel">
+    <h2>My trusted contacts</h2>
+    {% if contacts %}
+    <ul class="item-list">
+        {% for contact in contacts %}
+        <li class="list-item">
+            <div>
+                <strong>{{ contact.name }}</strong>
+                {% if contact.relationship %}<span class="muted"> · {{ contact.relationship }}</span>{% endif %}
+                <p><a href="tel:{{ contact.phone }}">{{ contact.phone }}</a></p>
+            </div>
+            <form method="post" action="{{ url_for('delete_contact', contact_id=contact.id) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button class="button danger" type="submit">Delete</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="muted">No personal contacts added yet.</p>
+    {% endif %}
+</section>
+<section class="panel helplines">
+    <h2>Emergency helpline information</h2>
+    <p>These numbers are shown separately from your personal contacts. Numbers can vary by location; confirm the correct services where you live.</p>
+    <ul>
+        <li>India emergency response: <a href="tel:112">112</a></li>
+        <li>India women helpline: <a href="tel:181">181</a></li>
+        <li>India ambulance: <a href="tel:108">108</a></li>
+    </ul>
+</section>
+{% endblock %}

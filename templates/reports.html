@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Incident Reports · Women Safety{% endblock %}
+{% block content %}
+<section class="page-heading">
+    <h1>Incident Reporting</h1>
+    <p>Reports are saved privately to your account for this demonstration. An optional location is stored only if you enter it.</p>
+</section>
+<section class="panel">
+    <h2>Record an incident</h2>
+    <form class="stacked-form" method="post" action="{{ url_for('reports') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label for="title">Title</label>
+        <input id="title" name="title" maxlength="120" required>
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="5" maxlength="2000" required></textarea>
+        <label for="location">Location <span class="field-hint">(optional latitude, longitude)</span></label>
+        <input id="location" name="location" maxlength="80" placeholder="e.g. 19.0760, 72.8777">
+        <button class="button" type="submit">Save report</button>
+    </form>
+</section>
+<section class="panel">
+    <h2>My reports</h2>
+    {% if reports %}
+    <ul class="item-list">
+        {% for report in reports %}
+        <li class="report-item">
+            <h3>{{ report.title }}</h3>
+            <p class="muted">{{ report.created_at }}</p>
+            <p class="preserve-lines">{{ report.description }}</p>
+            {% if report.location %}<p><strong>Location:</strong> {{ report.location }}</p>{% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="muted">You haven't submitted any reports.</p>
+    {% endif %}
+</section>
+{% endblock %}
